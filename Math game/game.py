@@ -1,25 +1,14 @@
 import random as rand
+from sqlite3 import Time
 import time
 import json as js
 import threading as th
 
 #------------------------------------Main game-----------------------------------------------
 
-def timer():
-   global time_end
-   elapsed = 0
-   time_end = False
-   for i in range(1, 6):
-      time.sleep(1)
-      elapsed += 1
-
-      if elapsed == 10:
-         time_end = True    
-
 data = {
 
 }
-
 correct_answers = 0
 
 def introduction():
@@ -49,21 +38,16 @@ def save_leaderboard(score, time_taken):
    data["score"] = score
    data["time"] = time_taken
 
-   with open("E:\Programming\Python\Projects\Active\Math game\leaderboard.json", "r") as file:
+   with open("E:\\Programming\\Python\\Projects\\Active\\Math game\\leaderboard.json", "r") as file:
       save = js.load(file)
 
    save['leaderboard'].append(data)
 
-   with open("E:\Programming\Python\Projects\Active\Math game\leaderboard.json", "w") as file:
+   with open("E:\\Programming\\Python\\Projects\\Active\\Math game\\leaderboard.json", "w") as file:
       js.dump(save, file, indent=4)
 
 def ask_question(num1, num2, op):
     global correct_answers, time_end
-
-    if time_end:
-      print("Time's up!")
-      return
-   
 
     if op == "+":
          correct = num1 + num2
@@ -89,7 +73,7 @@ def ask_question(num1, num2, op):
          print("Wrong!")
 
 def see_leaderboard():
-   with open ("E:\Programming\Python\Projects\Active\Math game\leaderboard.json", "r") as file:
+   with open ("E:\\Programming\\Python\\Projects\\Active\\Math game\\leaderboard.json", "r") as file:
       data = js.load(file)
       sorted_leaderboard = sorted(data["leaderboard"], key=lambda player: player["score"], reverse=True) 
 
@@ -162,23 +146,21 @@ def question_10():
 
 while True:
    if introduction():
-      time_thread = th.Thread(target=timer)
-      time_thread.start()
-
       time_start = time.time()
 
       functions = [question_1, question_2, question_3, question_4, question_5, question_6, question_7, question_8, question_9, question_10]
 
       for funct in functions:
-         if time_end:
-            print("Time's up!")
+         if time.time() - time_start >= 90:
+            print("Time's up! LOSER!")
             break
-         funct()
+         else:
+            funct()
 
       time_end1 = time.time()
 
       time_taken = time_end1 - time_start
-      time_left = 60 - time_taken
+      time_left = 90 - time_taken
       score = correct_answers * 100 + time_left * 10
 
       print(f"score: {score:.0f} = {correct_answers} * 100 + {time_left:.0f} * 10")
