@@ -5,7 +5,8 @@ import json as js
 import threading as th
 
 #------------------------------------Main game-----------------------------------------------
-
+def main():
+    print("Starting the game")
 data = {
 
 }
@@ -178,3 +179,6 @@ while True:
          continue
    else:
       break
+
+if __name__ == "__main__":
+   main()
