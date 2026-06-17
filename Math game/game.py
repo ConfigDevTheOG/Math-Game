@@ -7,6 +7,10 @@ import threading as th
 #------------------------------------Main game-----------------------------------------------
 def main():
     print("Starting the game")
+
+if __name__ == "__main__":
+   main()
+    
 data = {
 
 }
@@ -179,6 +183,3 @@ while True:
          continue
    else:
       break
-
-if __name__ == "__main__":
-   main()
